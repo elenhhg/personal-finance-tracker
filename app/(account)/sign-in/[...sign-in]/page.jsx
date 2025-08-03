@@ -1,0 +1,10 @@
+// app/sign-in/[[...sign-in]]/page.jsx
+import { SignIn } from '@clerk/nextjs';
+
+export default function SignInPage() {
+  return (
+    <div className="flex items-center justify-center h-screen bg-black">
+      <SignIn />
+    </div>
+  );
+}
