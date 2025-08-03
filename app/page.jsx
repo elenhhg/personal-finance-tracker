@@ -9,6 +9,11 @@ import { TransactionForm } from "@/components/transaction-form"
 import { TransactionList } from "@/components/transaction-list"
 import { SpendingChart } from "@/components/spending"
 import { CategoryChart } from "@/components/category"
+import { LogIn } from "lucide-react"
+import { AuthButtons } from "@/components/buttons"
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs"
+
 
 const initialTransactions = [
   {
@@ -107,38 +112,55 @@ export default function FinanceTracker() {
           initial="hidden"
           animate="visible"
         >
-          {/* Header */}
-          <motion.div className="flex items-center justify-between" variants={itemVariants}>
-            <div>
-              <motion.h1
-                className="text-4xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              >
-                Finance Tracker
-              </motion.h1>
-              <motion.p
-                className="text-gray-400 mt-2"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-              >
-                Manage your personal finances with style
-              </motion.p>
-            </div>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                onClick={() => setShowAddForm(true)}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white border-0 shadow-lg shadow-blue-500/25 transition-all duration-300"
-              >
-                <motion.div initial={{ rotate: 0 }} whileHover={{ rotate: 90 }} transition={{ duration: 0.2 }}>
-                  <Plus className="w-4 h-4 mr-2" />
-                </motion.div>
-                Add Transaction
+         
+{/* Header */}
+<motion.div className="flex items-center justify-between" variants={itemVariants}>
+  <div>
+    <motion.h1
+      className="text-4xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent"
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.6, delay: 0.2 }}
+    >
+      Finance Tracker
+    </motion.h1>
+    <motion.p
+      className="text-gray-400 mt-2"
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.6, delay: 0.4 }}
+    >
+      Manage your personal finances with style
+    </motion.p>
+  </div>
+
+  <div className="flex items-center space-x-4">
+    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+      <Button
+        onClick={() => setShowAddForm(true)}
+        className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white border-0 shadow-lg shadow-blue-500/25 transition-all duration-300"
+      >
+        <motion.div initial={{ rotate: 0 }} whileHover={{ rotate: 90 }} transition={{ duration: 0.2 }}>
+          <Plus className="w-4 h-4 mr-2" />
+        </motion.div>
+        Add Transaction
+      </Button>
+    </motion.div>
+
+  <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+          <SignedOut>
+            <SignInButton mode="modal">
+              <Button variant="ghost" aria-label="Sign In" className="text-white">
+                <LogIn className="w-6 h-6" />
               </Button>
-            </motion.div>
-          </motion.div>
+            </SignInButton>
+          </SignedOut>
+          <SignedIn>
+            <UserButton afterSignOutUrl="/" />
+          </SignedIn>
+        </motion.div>
+      </div>
+    </motion.div>
 
           {/* Overview Cards */}
           <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-6" variants={itemVariants}>
