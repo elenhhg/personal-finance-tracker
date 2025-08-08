@@ -4,7 +4,6 @@ import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from "rec
 import { motion } from "framer-motion"
 
 export function SpendingChart({ transactions }) {
-  // Group transactions by date and calculate daily totals
   const dailyData = transactions.reduce((acc, transaction) => {
     const date = transaction.date
     if (!acc[date]) {
@@ -30,7 +29,7 @@ export function SpendingChart({ transactions }) {
   if (chartData.length === 0) {
     return (
       <motion.div
-        className="h-[200px] flex items-center justify-center text-gray-400"
+        className="h-[300px] flex items-center justify-center text-gray-400"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -38,8 +37,8 @@ export function SpendingChart({ transactions }) {
         <div className="text-center">
           <motion.div
             animate={{ rotate: [0, 360] }}
-            transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-            className="mb-2 text-4xl"
+            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+            className="text-4xl mb-2"
           >
             📊
           </motion.div>
@@ -51,7 +50,7 @@ export function SpendingChart({ transactions }) {
 
   return (
     <motion.div
-      className="h-[200px]"
+      className="h-[300px]"
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay: 0.2 }}
@@ -60,46 +59,47 @@ export function SpendingChart({ transactions }) {
         <AreaChart data={chartData}>
           <defs>
             <linearGradient id="incomeGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#10B981" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#10B981" stopOpacity={0.1} />
+              <stop offset="5%" stopColor="#60A5FA" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#60A5FA" stopOpacity={0.1} />
             </linearGradient>
             <linearGradient id="expenseGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#EF4444" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#EF4444" stopOpacity={0.1} />
+              <stop offset="5%" stopColor="#A78BFA" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#A78BFA" stopOpacity={0.1} />
             </linearGradient>
           </defs>
-          <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: "#9CA3AF", fontSize: 12 }} />
+          <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: "#D1D5DB", fontSize: 12 }} />
           <YAxis
             axisLine={false}
             tickLine={false}
-            tick={{ fill: "#9CA3AF", fontSize: 12 }}
+            tick={{ fill: "#D1D5DB", fontSize: 12 }}
             tickFormatter={(value) => `$${value}`}
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: "#111827",
-              border: "1px solid #374151",
-              borderRadius: "12px",
-              color: "#F3F4F6",
-              boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.5)",
+              backgroundColor: "#1F2937", // gray-800
+              border: "1px solid #6B7280", // gray-500
+              borderRadius: "10px",
+              color: "#F9FAFB", // gray-50
+              boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
             }}
+            itemStyle={{ color: "#D1D5DB" }} // gray-300
             formatter={(value, name) => [`$${value.toLocaleString()}`, name === "expenses" ? "Expenses" : "Income"]}
           />
           <Area
             type="monotone"
             dataKey="expenses"
             stackId="1"
-            stroke="#EF4444"
+            stroke="#A78BFA"
             fill="url(#expenseGradient)"
-            strokeWidth={2}
+            strokeWidth={3}
           />
           <Area
             type="monotone"
             dataKey="income"
             stackId="2"
-            stroke="#10B981"
+            stroke="#60A5FA"
             fill="url(#incomeGradient)"
-            strokeWidth={2}
+            strokeWidth={3}
           />
         </AreaChart>
       </ResponsiveContainer>

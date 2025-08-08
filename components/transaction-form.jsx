@@ -7,45 +7,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { X } from "lucide-react"
+import { X } from 'lucide-react'
 
 const expenseCategories = [
-  "Rent",
-  "Groceries",
-  "Utilities",
-  "Transportation",
-  "Entertainment",
-  "Healthcare",
-  "Shopping",
-  "Dining",
-  "Education",
-  "Other",
+  "Rent", "Groceries", "Utilities", "Transportation", "Entertainment",
+  "Healthcare", "Shopping", "Dining", "Education", "Other",
 ]
 
 const incomeCategories = ["Salary", "Freelance", "Investment", "Business", "Gift", "Other"]
-
-const formVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.1,
-    },
-  },
-}
-
-const fieldVariants = {
-  hidden: { opacity: 0, x: -20 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.3,
-      ease: "easeOut",
-    },
-  },
-}
 
 export function TransactionForm({ onSubmit, onCancel }) {
   const [type, setType] = useState("expense")
@@ -60,8 +29,6 @@ export function TransactionForm({ onSubmit, onCancel }) {
     if (!amount || !category || !description) return
 
     setIsSubmitting(true)
-
-    // Simulate loading
     await new Promise((resolve) => setTimeout(resolve, 500))
 
     onSubmit({
@@ -73,8 +40,6 @@ export function TransactionForm({ onSubmit, onCancel }) {
     })
 
     setIsSubmitting(false)
-
-    // Reset form
     setAmount("")
     setCategory("")
     setDescription("")
@@ -86,142 +51,132 @@ export function TransactionForm({ onSubmit, onCancel }) {
   return (
     <motion.form
       onSubmit={handleSubmit}
-      className="space-y-6"
-      variants={formVariants}
-      initial="hidden"
-      animate="visible"
+      className="space-y-6 font-inter"
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3 }}
     >
-      <motion.div className="flex items-center justify-between" variants={fieldVariants}>
-        <h2 className="text-2xl font-bold text-transparent bg-gradient-to-r from-white to-gray-300 bg-clip-text">
-          Add Transaction
+      <div className="flex items-center justify-between">
+        <h2 className="text-3xl font-poppins text-gray-300 tracking-wide">
+          ADD TRANSACTION
         </h2>
         <motion.button
           type="button"
           onClick={onCancel}
-          className="p-1 text-gray-400 transition-colors hover:text-white"
-          whileHover={{ scale: 1.1, rotate: 90 }}
+          className="text-gray-400 hover:text-gray-200 transition-colors p-2"
+          whileHover={{ scale: 1.2, rotate: 90 }}
           whileTap={{ scale: 0.9 }}
+          aria-label="Close form"
         >
-          <X className="w-5 h-5" />
+          <X className="w-6 h-6" />
         </motion.button>
-      </motion.div>
+      </div>
 
-      <motion.div className="space-y-2" variants={fieldVariants}>
-        <Label htmlFor="type" className="font-medium text-gray-300">
-          Type
-        </Label>
-        <Select value={type} onValueChange={(value) => setType(value)}>
-          <SelectTrigger className="text-white transition-colors border-gray-700 bg-gray-800/50 backdrop-blur-sm hover:bg-gray-800">
+      {/* Type */}
+      <div className="space-y-2">
+        <Label htmlFor="type" className="text-gray-300 font-bold tracking-wide">Type</Label>
+        <Select value={type} onValueChange={setType}>
+          <SelectTrigger className="bg-gradient-to-r from-gray-700 via-gray-600 to-gray-800 border-2 border-gray-500 text-gray-200 backdrop-blur-sm hover:border-gray-400 transition-colors shadow-md shadow-gray-900/40 rounded-md">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent className="bg-gray-800 border-gray-700 backdrop-blur-sm">
-            <SelectItem value="expense" className="text-white hover:bg-gray-700 focus:bg-gray-700">
+          <SelectContent className="bg-gradient-to-b from-gray-900 to-gray-800 border-2 border-gray-700 backdrop-blur-sm shadow-lg shadow-black/60 rounded-md">
+            <SelectItem value="expense" className="text-gray-200 hover:bg-gray-700/70 focus:bg-gray-700/70 rounded-md">
               💸 Expense
             </SelectItem>
-            <SelectItem value="income" className="text-white hover:bg-gray-700 focus:bg-gray-700">
+            <SelectItem value="income" className="text-gray-200 hover:bg-gray-700/70 focus:bg-gray-700/70 rounded-md">
               💰 Income
             </SelectItem>
           </SelectContent>
         </Select>
-      </motion.div>
+      </div>
 
-      <motion.div className="space-y-2" variants={fieldVariants}>
-        <Label htmlFor="amount" className="font-medium text-gray-300">
-          Amount
-        </Label>
-        <motion.div whileFocus={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
-          <Input
-            id="amount"
-            type="number"
-            step="0.01"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            placeholder="0.00"
-            className="text-white transition-colors border-gray-700 bg-gray-800/50 placeholder:text-gray-500 backdrop-blur-sm hover:bg-gray-800 focus:bg-gray-800"
-            required
-          />
-        </motion.div>
-      </motion.div>
+      {/* Amount */}
+      <div className="space-y-2">
+        <Label htmlFor="amount" className="text-gray-300 font-bold tracking-wide">Amount</Label>
+        <Input
+          id="amount"
+          type="number"
+          step="0.01"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          placeholder="0.00"
+          className="bg-gradient-to-r from-gray-700 via-gray-600 to-gray-800 border-2 border-gray-500 text-gray-200 placeholder:text-gray-400 backdrop-blur-sm hover:border-gray-400 focus:border-gray-300 transition-colors font-jetbrains text-lg rounded-md shadow-md shadow-gray-900/40"
+          required
+        />
+      </div>
 
-      <motion.div className="space-y-2" variants={fieldVariants}>
-        <Label htmlFor="category" className="font-medium text-gray-300">
-          Category
-        </Label>
+      {/* Category */}
+      <div className="space-y-2">
+        <Label htmlFor="category" className="text-gray-300 font-bold tracking-wide">Category</Label>
         <Select value={category} onValueChange={setCategory}>
-          <SelectTrigger className="text-white transition-colors border-gray-700 bg-gray-800/50 backdrop-blur-sm hover:bg-gray-800">
+          <SelectTrigger className="bg-gradient-to-r from-gray-700 via-gray-600 to-gray-800 border-2 border-gray-500 text-gray-200 backdrop-blur-sm hover:border-gray-400 transition-colors shadow-md shadow-gray-900/40 rounded-md">
             <SelectValue placeholder="Select category" />
           </SelectTrigger>
-          <SelectContent className="bg-gray-800 border-gray-700 backdrop-blur-sm">
+          <SelectContent className="bg-gradient-to-b from-gray-900 to-gray-800 border-2 border-gray-700 backdrop-blur-sm shadow-lg shadow-black/60 rounded-md">
             {categories.map((cat) => (
-              <SelectItem key={cat} value={cat} className="text-white hover:bg-gray-700 focus:bg-gray-700">
+              <SelectItem key={cat} value={cat} className="text-gray-200 hover:bg-gray-700/70 focus:bg-gray-700/70 rounded-md">
                 {cat}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
-      </motion.div>
+      </div>
 
-      <motion.div className="space-y-2" variants={fieldVariants}>
-        <Label htmlFor="description" className="font-medium text-gray-300">
-          Description
-        </Label>
-        <motion.div whileFocus={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
-          <Textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Enter description..."
-            className="text-white transition-colors border-gray-700 resize-none bg-gray-800/50 placeholder:text-gray-500 backdrop-blur-sm hover:bg-gray-800 focus:bg-gray-800"
-            required
-          />
-        </motion.div>
-      </motion.div>
+      {/* Description */}
+      <div className="space-y-2">
+        <Label htmlFor="description" className="text-gray-300 font-bold tracking-wide">Description</Label>
+        <Textarea
+          id="description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Enter description..."
+          className="bg-gradient-to-r from-gray-700 via-gray-600 to-gray-800 border-2 border-gray-500 text-gray-200 placeholder:text-gray-400 backdrop-blur-sm hover:border-gray-400 focus:border-gray-300 transition-colors resize-none rounded-md shadow-md shadow-gray-900/40"
+          required
+        />
+      </div>
 
-      <motion.div className="space-y-2" variants={fieldVariants}>
-        <Label htmlFor="date" className="font-medium text-gray-300">
-          Date
-        </Label>
-        <motion.div whileFocus={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
-          <Input
-            id="date"
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            className="text-white transition-colors border-gray-700 bg-gray-800/50 backdrop-blur-sm hover:bg-gray-800 focus:bg-gray-800"
-            required
-          />
-        </motion.div>
-      </motion.div>
+      {/* Date */}
+      <div className="space-y-2">
+        <Label htmlFor="date" className="text-gray-300 font-bold tracking-wide">Date</Label>
+        <Input
+          id="date"
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          className="bg-gradient-to-r from-gray-700 via-gray-600 to-gray-800 border-2 border-gray-500 text-gray-200 backdrop-blur-sm hover:border-gray-400 focus:border-gray-300 transition-colors font-jetbrains rounded-md shadow-md shadow-gray-900/40"
+          required
+        />
+      </div>
 
-      <motion.div className="flex gap-3 pt-4" variants={fieldVariants}>
-        <motion.div className="flex-1" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+      {/* Buttons */}
+      <div className="flex gap-4 pt-4">
+        <motion.div className="flex-1" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full text-white transition-all duration-300 border-0 shadow-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-blue-500/25"
+            className="w-full bg-gradient-to-r from-gray-600 via-gray-700 to-gray-800 hover:from-gray-700 hover:via-gray-800 hover:to-gray-900 text-white border-2 border-gray-500 shadow-lg shadow-gray-900/70 transition-all duration-300 font-bold py-3 text-lg rounded-md"
           >
             {isSubmitting ? (
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-                className="w-4 h-4 border-2 border-white rounded-full border-t-transparent"
+                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
               />
             ) : (
-              "Add Transaction"
+              "ADD TRANSACTION"
             )}
           </Button>
         </motion.div>
-        <motion.div className="flex-1" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+        <motion.div className="flex-1" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           <Button
             type="button"
-            variant="outline"
             onClick={onCancel}
-            className="w-full text-gray-300 transition-all duration-300 bg-transparent border-gray-700 hover:bg-gray-800 hover:text-white"
+            className="w-full border-2 border-gray-500 text-gray-400 hover:bg-gray-700 hover:text-white bg-transparent transition-all duration-300 font-bold py-3 text-lg rounded-md"
           >
-            Cancel
+            CANCEL
           </Button>
         </motion.div>
-      </motion.div>
+      </div>
     </motion.form>
   )
 }

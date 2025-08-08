@@ -14,8 +14,12 @@ export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${geistMono.variable} font-sans bg-black text-white`}>
-          {children}
+        <body className={`animate-gradient ${geistMono.variable}`}>
+          <div className="min-h-screen flex flex-col items-center px-4 sm:px-6 md:px-8 lg:px-12">
+            <div className="w-full max-w-[1400px]">
+              {children}
+            </div>
+          </div>
         </body>
       </html>
     </ClerkProvider>

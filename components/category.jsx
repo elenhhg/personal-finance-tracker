@@ -4,25 +4,16 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recha
 import { motion } from "framer-motion"
 
 const COLORS = [
-  "#EF4444",
-  "#F97316",
-  "#F59E0B",
-  "#EAB308",
-  "#84CC16",
-  "#22C55E",
-  "#10B981",
-  "#14B8A6",
-  "#06B6D4",
-  "#0EA5E9",
-  "#3B82F6",
-  "#6366F1",
-  "#8B5CF6",
-  "#A855F7",
-  "#D946EF",
+  "#60A5FA", // Blue-400
+  "#8B5CF6", // Violet-600
+  "#22D3EE", // Cyan-400
+  "#34D399", // Green-400
+  "#F3E8FF", // Purple-100 (light pastel)
+  "#D8B4FE", // Purple-300
+  "#10B981", // Green-500
 ]
 
 export function CategoryChart({ transactions }) {
-  // Group expenses by category
   const expensesByCategory = transactions
     .filter((t) => t.type === "expense")
     .reduce((acc, transaction) => {
@@ -35,7 +26,7 @@ export function CategoryChart({ transactions }) {
     .map(([category, amount]) => ({
       name: category,
       value: amount,
-      percentage: 0, // Will be calculated below
+      percentage: 0,
     }))
     .sort((a, b) => b.value - a.value)
 
@@ -47,7 +38,7 @@ export function CategoryChart({ transactions }) {
   if (chartData.length === 0) {
     return (
       <motion.div
-        className="h-[200px] flex items-center justify-center text-gray-400"
+        className="h-[300px] flex items-center justify-center text-gray-400"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -55,8 +46,8 @@ export function CategoryChart({ transactions }) {
         <div className="text-center">
           <motion.div
             animate={{ rotate: [0, 360] }}
-            transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-            className="mb-2 text-4xl"
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+            className="text-4xl mb-2"
           >
             🥧
           </motion.div>
@@ -68,7 +59,7 @@ export function CategoryChart({ transactions }) {
 
   return (
     <motion.div
-      className="h-[200px]"
+      className="h-[300px]"
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay: 0.4 }}
@@ -79,29 +70,39 @@ export function CategoryChart({ transactions }) {
             {COLORS.map((color, index) => (
               <linearGradient key={index} id={`gradient-${index}`} x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0%" stopColor={color} stopOpacity={1} />
-                <stop offset="100%" stopColor={color} stopOpacity={0.6} />
+                <stop offset="100%" stopColor={color} stopOpacity={0.5} />
               </linearGradient>
             ))}
           </defs>
-          <Pie data={chartData} cx="50%" cy="50%" innerRadius={40} outerRadius={80} paddingAngle={2} dataKey="value">
+          <Pie
+            data={chartData}
+            cx="50%"
+            cy="50%"
+            innerRadius={60}
+            outerRadius={110}
+            paddingAngle={2}
+            dataKey="value"
+            stroke="transparent"
+          >
             {chartData.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={`url(#gradient-${index % COLORS.length})`} />
             ))}
           </Pie>
           <Tooltip
             contentStyle={{
-              backgroundColor: "#111827",
-              border: "1px solid #374151",
-              borderRadius: "12px",
-              color: "#F3F4F6",
-              boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.5)",
+              backgroundColor: "#1F2937", // gray-800
+              border: "1px solid #6B7280", // gray-500
+              borderRadius: "10px",
+              color: "#F9FAFB", // gray-50
+              boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
             }}
+            itemStyle={{ color: "#D1D5DB" }} // gray-300 for text inside tooltip
             formatter={(value) => [`$${value.toLocaleString()}`, "Amount"]}
           />
           <Legend
-            wrapperStyle={{ color: "#9CA3AF", fontSize: "12px" }}
+            wrapperStyle={{ color: "#9CA3AF", fontSize: "13px", marginTop: 16 }}
             formatter={(value, entry) => (
-              <span style={{ color: entry.color }}>
+              <span style={{ color: "#D1D5DB" /* gray-300 */ }}>
                 {value} ({entry.payload?.percentage?.toFixed(1)}%)
               </span>
             )}
