@@ -1,5 +1,5 @@
 import connectDB from "@/lib/mongodb";
-import Transaction from "@/models/τransaction";
+import Transaction from "@/models/transaction";
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
