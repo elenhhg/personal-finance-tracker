@@ -1,26 +1,30 @@
-import dbConnect from '@/lib/mongodb';
-import Transaction from '@/models/transaction';
-import { NextResponse } from 'next/server';
+import connectDB from "@/lib/mongodb";
+import Transaction from "@/models/τransaction";
 
-export async function GET() {
-  await dbConnect();
+export async function GET(req) {
+  const { searchParams } = new URL(req.url);
+  const userId = searchParams.get("userId");
 
-  try {
-    const transactions = await Transaction.find({});
-    return NextResponse.json(transactions);
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch transactions' }, { status: 500 });
+  if (!userId) {
+    return new Response(JSON.stringify({ error: "Missing userId" }), { status: 400 });
   }
+
+  await connectDB();
+  const transactions = await Transaction.find({ userId }).sort({ date: -1 });
+
+  return new Response(JSON.stringify({ transactions }), { status: 200 });
 }
 
-export async function POST(request) {
-  await dbConnect();
+export async function POST(req) {
+  const { userId, title, amount, date } = await req.json();
 
-  try {
-    const body = await request.json();
-    const transaction = await Transaction.create(body);
-    return NextResponse.json(transaction, { status: 201 });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to create transaction' }, { status: 400 });
+  if (!userId || !title || amount == null) {
+    return new Response(JSON.stringify({ error: "Missing fields" }), { status: 400 });
   }
+
+  await connectDB();
+  const transaction = new Transaction({ userId, title, amount, date: date ? new Date(date) : new Date() });
+  await transaction.save();
+
+  return new Response(JSON.stringify({ transaction }), { status: 201 });
 }

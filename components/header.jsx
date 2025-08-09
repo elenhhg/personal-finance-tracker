@@ -1,14 +1,19 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { LayoutDashboard, PieChart, Home, List } from "lucide-react"
+import { LayoutDashboard, PieChart, Home, List, User } from "lucide-react"
+import { useClerk, useUser, UserButton } from "@clerk/clerk-react"
 
 export function Navigation({ onSectionChange, activeSection }) {
+  const { openSignIn } = useClerk()
+  const { isSignedIn } = useUser()
+
   const menuItems = [
     { id: "home", icon: Home },
     { id: "overview", icon: LayoutDashboard },
     { id: "transactions", icon: List },
     { id: "analytics", icon: PieChart },
+    { id: "account", icon: User }, // Account icon / user menu
   ]
 
   return (
@@ -26,26 +31,41 @@ export function Navigation({ onSectionChange, activeSection }) {
           return (
             <motion.button
               key={item.id}
-              onClick={() => onSectionChange(item.id)}
+              onClick={() => {
+                if (item.id === "account") {
+                  if (!isSignedIn) {
+                    openSignIn({})
+                  }
+                  return
+                }
+                onSectionChange(item.id)
+              }}
               className="relative p-3 rounded-full flex items-center justify-center overflow-hidden"
               whileHover={{
                 y: -3,
-                boxShadow: "0px 0px 12px rgba(156,163,175,0.6)", // platinum gray shadow
+                boxShadow: "0px 0px 12px rgba(156,163,175,0.6)",
               }}
               whileTap={{ scale: 0.95 }}
             >
-              {isActive && (
+              {isActive && item.id !== "account" && (
                 <motion.div
                   layoutId="highlight"
                   className="absolute inset-0 bg-gray-400 rounded-full z-0"
                   transition={{ type: "spring", stiffness: 500, damping: 30 }}
                 />
               )}
-              <Icon
-                className={`w-5 h-5 relative z-10 ${
-                  isActive ? "text-gray-900" : "text-gray-600"
-                }`}
-              />
+
+              {item.id === "account" && isSignedIn ? (
+                <UserButton afterSignOutUrl="/" /> // Clerk profile menu
+              ) : (
+                <Icon
+                  className={`w-5 h-5 relative z-10 ${
+                    isActive && item.id !== "account"
+                      ? "text-gray-900"
+                      : "text-gray-600"
+                  }`}
+                />
+              )}
             </motion.button>
           )
         })}
