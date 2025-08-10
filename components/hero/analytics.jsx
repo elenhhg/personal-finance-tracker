@@ -4,6 +4,19 @@ import { motion } from "framer-motion"
 import { PieChart, BarChart3, TrendingUp } from "lucide-react"
 import { Pie, Cell, ResponsiveContainer } from "recharts" // Import Recharts components
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart" // Import shadcn/ui chart components
+import { Bruno_Ace_SC, Open_Sans } from "next/font/google" // Import the fonts
+
+// Define the fonts
+const brunoAceSC = Bruno_Ace_SC({
+  weight: "400", // Bruno Ace SC is a single weight font
+  subsets: ["latin"],
+  display: "swap",
+})
+
+const openSans = Open_Sans({
+  subsets: ["latin"],
+  display: "swap",
+})
 
 export function HeroAnalytics({ transactions }) {
   // Calculate expense categories with amounts for the pie chart
@@ -13,12 +26,10 @@ export function HeroAnalytics({ transactions }) {
       acc[t.category] = (acc[t.category] || 0) + t.amount
       return acc
     }, {})
-
   const categoryData = Object.entries(expenseCategories).map(([category, amount]) => ({
     name: category,
     value: amount,
   }))
-
   const topCategory = categoryData.sort((a, b) => b.value - a.value)[0]
 
   // Define colors for the pie chart segments
@@ -27,7 +38,6 @@ export function HeroAnalytics({ transactions }) {
   const gradientAnimation = {
     backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
   }
-
   const gradientTransition = {
     duration: 2.5,
     repeat: Number.POSITIVE_INFINITY,
@@ -36,31 +46,32 @@ export function HeroAnalytics({ transactions }) {
 
   return (
     <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-      <div className="text-center space-y-6 sm:space-y-8 md:space-y-10 lg:space-y-12 px-2 sm:px-4 md:px-6">
-                 <motion.h1
-                   className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-black font-orbitron tracking-tight leading-none text-gray-200"
-                   initial={{ opacity: 0, rotateX: -90 }}
-                   animate={{ opacity: 1, rotateX: 0 }}
-                   transition={{ duration: 1, ease: "easeOut" }}
-                 >
-                   <motion.span
-                     className="bg-gradient-to-r from-gray-600 via-gray-300 to-gray-600 bg-clip-text text-transparent"
-                     animate={{
-                       backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-                     }}
-                     transition={{
-                       duration: 3,
-                       repeat: Number.POSITIVE_INFINITY,
-                       ease: "linear",
-                     }}
-                     style={{
-                       backgroundSize: "200% 200%",
-                     }}
-                   >
-                     ANALYTICS
-                   </motion.span>
-                 </motion.h1>
-
+      <div className="text-center space-y-6 sm:space-y-8 md:space-y-10 lg:space-y-12 px-2 sm:px-4 md:px-6 pt-20 sm:pt-24 md:pt-28 lg:pt-32">
+        {" "}
+        {/* Added responsive top padding */}
+        <motion.h1
+          className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl text-gray-800 tracking-tight leading-tight ${brunoAceSC.className}`} // Apply Bruno Ace SC and adjusted size
+          initial={{ opacity: 0, rotateX: -90 }} // Original animation initial state
+          animate={{ opacity: 1, rotateX: 0 }} // Original animation animate state
+          transition={{ duration: 1, ease: "easeOut" }} // Original animation transition
+        >
+          <motion.span
+            className="bg-gradient-to-r from-gray-600 via-gray-300 to-gray-600 bg-clip-text text-transparent"
+            animate={{
+              backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"], // Original gradient animation
+            }}
+            transition={{
+              duration: 3,
+              repeat: Number.POSITIVE_INFINITY,
+              ease: "linear",
+            }}
+            style={{
+              backgroundSize: "200% 200%",
+            }}
+          >
+            ANALYTICS
+          </motion.span>
+        </motion.h1>
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto"
           initial={{ opacity: 0, scale: 0.8 }}
@@ -73,7 +84,10 @@ export function HeroAnalytics({ transactions }) {
             whileHover={{ scale: 1.02, rotateX: 5 }}
             transition={{ duration: 0.3 }}
           >
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-300 mb-4">CATEGORIES</h3>
+            <h3 className={`text-lg sm:text-xl md:text-2xl font-bold text-gray-300 mb-4 ${openSans.className}`}>
+              CATEGORIES
+            </h3>{" "}
+            {/* Apply Open Sans */}
             {categoryData.length > 0 ? (
               <ChartContainer
                 config={categoryData.reduce((acc, item, index) => {
@@ -83,7 +97,7 @@ export function HeroAnalytics({ transactions }) {
                   }
                   return acc
                 }, {})}
-                className="aspect-square h-[150px] sm:h-[200px] md:h-[250px] w-full"
+                className="w-full h-[250px] sm:h-[300px] md:h-[350px] lg:h-[400px]" // Explicit responsive height
               >
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -107,12 +121,14 @@ export function HeroAnalytics({ transactions }) {
             ) : (
               <div className="flex flex-col items-center justify-center h-full text-gray-400">
                 <PieChart className="w-12 h-12 text-gray-600 mb-2" />
-                <p>No expense data</p>
+                <p className={openSans.className}>No expense data</p> {/* Apply Open Sans */}
               </div>
             )}
-            <p className="text-sm sm:text-base text-gray-500 mt-4">{categoryData.length} Active Categories</p>
+            <p className={`text-sm sm:text-base text-gray-500 mt-4 ${openSans.className}`}>
+              {categoryData.length} Active Categories
+            </p>{" "}
+            {/* Apply Open Sans */}
           </motion.div>
-
           {/* Top Category Card */}
           <motion.div
             className="bg-gradient-to-br from-gray-300/15 to-transparent border-2 border-gray-400/40 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 backdrop-blur-sm"
@@ -126,9 +142,12 @@ export function HeroAnalytics({ transactions }) {
             >
               <BarChart3 className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-gray-600 mx-auto" />
             </motion.div>
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-300 mb-2">TOP CATEGORY</h3>
+            <h3 className={`text-lg sm:text-xl md:text-2xl font-bold text-gray-300 mb-2 ${openSans.className}`}>
+              TOP CATEGORY
+            </h3>{" "}
+            {/* Apply Open Sans */}
             <motion.p
-              className="text-lg sm:text-xl md:text-2xl font-black text-gray-100 font-jetbrains truncate"
+              className={`text-lg sm:text-xl md:text-2xl font-black text-gray-100 truncate ${openSans.className}`} // Apply Open Sans
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.5, delay: 1.2 }}
@@ -136,11 +155,12 @@ export function HeroAnalytics({ transactions }) {
             >
               {topCategory ? topCategory.name : "N/A"}
             </motion.p>
-            <p className="text-sm sm:text-base text-gray-500 mt-2">
+            <p className={`text-sm sm:text-base text-gray-500 mt-2 ${openSans.className}`}>
+              {" "}
+              {/* Apply Open Sans */}
               {topCategory ? `${topCategory.value.toLocaleString()} total` : "No data"}
             </p>
           </motion.div>
-
           {/* Insights Card */}
           <motion.div
             className="bg-gradient-to-br from-gray-300/15 to-transparent border-2 border-gray-400/40 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 backdrop-blur-sm sm:col-span-2 lg:col-span-1"
@@ -154,27 +174,30 @@ export function HeroAnalytics({ transactions }) {
             >
               <TrendingUp className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-gray-600 mx-auto" />
             </motion.div>
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-300 mb-2">INSIGHTS</h3>
+            <h3 className={`text-lg sm:text-xl md:text-2xl font-bold text-gray-300 mb-2 ${openSans.className}`}>
+              INSIGHTS
+            </h3>{" "}
+            {/* Apply Open Sans */}
             <motion.p
-              className="text-2xl sm:text-3xl md:text-3xl font-black text-gray-100 font-jetbrains"
+              className={`text-2xl sm:text-3xl md:text-3xl font-black text-gray-100 ${openSans.className}`} // Apply Open Sans
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.5, delay: 1.4 }}
             >
               {transactions.length}
             </motion.p>
-            <p className="text-sm sm:text-base text-gray-500 mt-2">Total Transactions</p>
+            <p className={`text-sm sm:text-base text-gray-500 mt-2 ${openSans.className}`}>Total Transactions</p>{" "}
+            {/* Apply Open Sans */}
           </motion.div>
         </motion.div>
-
         <motion.p
-          className="text-base sm:text-lg md:text-xl text-gray-500 max-w-3xl mx-auto px-2"
+          className={`text-base sm:text-lg md:text-xl text-gray-500 max-w-3xl mx-auto px-2 ${openSans.className}`} // Apply Open Sans
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1.6 }}
         >
-          <span className="text-gray-600 font-bold">POWERFUL ANALYTICS</span> with real-time insights and{" "}
-          <span className="text-gray-800 font-bold">dynamic visualizations</span>
+          <span className={`text-gray-600 font-bold ${openSans.className}`}>POWERFUL ANALYTICS</span> with real-time
+          insights and <span className={`text-white font-bold ${openSans.className}`}>dynamic visualizations</span>
         </motion.p>
       </div>
     </div>

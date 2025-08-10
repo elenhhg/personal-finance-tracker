@@ -1,5 +1,10 @@
+
+
 @import "tailwindcss";
 @import "tw-animate-css";
+
+
+
 
 @custom-variant dark (&:is(.dark *));
 
@@ -41,7 +46,13 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+
 }
+
+
+
+
 
 :root {
   --background: linear-gradient(135deg, oklch(37.457% 0.04704 249.205), oklch(18.108% 0.032 269.067));
@@ -158,4 +169,9 @@
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
   }
+}
+
+
+.font-bruno {
+  font-family: 'Bruno Ace SC', cursive;
 }

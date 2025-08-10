@@ -21,7 +21,6 @@ export function CategoryChart({ transactions }) {
       acc[category] = (acc[category] || 0) + transaction.amount
       return acc
     }, {})
-
   const chartData = Object.entries(expensesByCategory)
     .map(([category, amount]) => ({
       name: category,
@@ -29,7 +28,6 @@ export function CategoryChart({ transactions }) {
       percentage: 0,
     }))
     .sort((a, b) => b.value - a.value)
-
   const total = chartData.reduce((sum, item) => sum + item.value, 0)
   chartData.forEach((item) => {
     item.percentage = (item.value / total) * 100
@@ -38,7 +36,7 @@ export function CategoryChart({ transactions }) {
   if (chartData.length === 0) {
     return (
       <motion.div
-        className="h-[300px] flex items-center justify-center text-gray-400"
+        className="h-full flex items-center justify-center text-gray-400"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -46,7 +44,7 @@ export function CategoryChart({ transactions }) {
         <div className="text-center">
           <motion.div
             animate={{ rotate: [0, 360] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
             className="text-4xl mb-2"
           >
             🥧
@@ -59,7 +57,7 @@ export function CategoryChart({ transactions }) {
 
   return (
     <motion.div
-      className="h-[300px]"
+      className="h-full"
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay: 0.4 }}
@@ -68,7 +66,7 @@ export function CategoryChart({ transactions }) {
         <PieChart>
           <defs>
             {COLORS.map((color, index) => (
-              <linearGradient key={index} id={`gradient-${index}`} x1="0" y1="0" x2="1" y2="1">
+              <linearGradient key={`gradient-${index}`} id={`gradient-${index}`} x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0%" stopColor={color} stopOpacity={1} />
                 <stop offset="100%" stopColor={color} stopOpacity={0.5} />
               </linearGradient>

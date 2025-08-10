@@ -9,7 +9,7 @@ import { TransactionList } from "@/components/transaction-list"
 import { SpendingChart } from "@/components/spending"
 import { CategoryChart } from "@/components/category"
 import { Navigation } from "@/components/header"
-import { HeroHome } from "@/components/hero/home"
+import HeroHome from "@/components/hero/home"
 import { HeroOverview } from "@/components/hero/overview"
 import { HeroAnalytics } from "@/components/hero/analytics"
 import { HeroTransactions } from "@/components/hero/transactions"
@@ -105,7 +105,8 @@ export default function FinanceTracker() {
   const getHeroComponent = () => {
     switch (activeSection) {
       case "home":
-        return <HeroHome onAddTransaction={() => setShowAddForm(true)} />
+        return <HeroHome onAddTransaction={() => setShowAddForm(true)}
+        onViewDashboard={() => setActiveSection("overview")} />
       case "overview":
         return (
           <HeroOverview
@@ -126,7 +127,8 @@ export default function FinanceTracker() {
           />
         )
       default:
-        return <HeroHome onAddTransaction={() => setShowAddForm(true)} />
+        return <HeroHome onAddTransaction={() => setShowAddForm(true)}
+         onViewDashboard={() => setActiveSection("overview")} />
     }
   }
 
