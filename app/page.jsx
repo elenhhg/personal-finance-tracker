@@ -141,7 +141,7 @@ export default function FinanceTracker() {
     <div
       className="min-h-screen font-inter overflow-hidden"
       style={{
-        color: "#1f2937",
+        // color: "#1f2937",
       }}
       ref={containerRef}
     >
@@ -239,100 +239,7 @@ export default function FinanceTracker() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.3 }}
                   >
-                    {/* Balance Card */}
-                    <motion.div
-                      whileHover={{ scale: 1.02, rotateY: 2 }}
-                      transition={{ duration: 0.3 }}
-                      className="md:col-span-2 xl:col-span-1"
-                    >
-                      <Card className="bg-gradient-to-br from-red-900/20 to-black/80 border-red-800/50 shadow-xl shadow-red-500/20 backdrop-blur-sm h-full">
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-4 sm:p-6">
-                          <CardTitle className="text-sm sm:text-base font-medium text-red-200 font-inter">
-                            Total Balance
-                          </CardTitle>
-                          <motion.div
-                            animate={{ rotate: [0, 360] }}
-                            transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-                          >
-                            <DollarSign className="h-4 w-4 sm:h-5 sm:w-5 text-red-400" />
-                          </motion.div>
-                        </CardHeader>
-                        <CardContent className="p-4 sm:p-6 pt-0">
-                          <motion.div
-                            className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold font-poppins ${balance >= 0 ? "text-green-400" : "text-red-400"}`}
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ duration: 0.5, delay: 0.4 }}
-                          >
-                            ${balance.toLocaleString()}
-                          </motion.div>
-                          <p className="text-xs sm:text-sm text-red-300 mt-1 sm:mt-2 font-inter">
-                            {balance >= 0 ? "+" : ""}
-                            {totalIncome > 0 ? ((balance / totalIncome) * 100).toFixed(1) : 0}% from income
-                          </p>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-
-                    {/* Income Card */}
-                    <motion.div whileHover={{ scale: 1.02, rotateY: 2 }} transition={{ duration: 0.3 }}>
-                      <Card className="bg-gradient-to-br from-green-900/20 to-black/80 border-green-800/50 shadow-xl shadow-green-500/20 h-full">
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-4 sm:p-6">
-                          <CardTitle className="text-sm sm:text-base font-medium text-green-200 font-inter">
-                            Total Income
-                          </CardTitle>
-                          <motion.div
-                            animate={{ y: [0, -3, 0] }}
-                            transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-                          >
-                            <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-green-400" />
-                          </motion.div>
-                        </CardHeader>
-                        <CardContent className="p-4 sm:p-6 pt-0">
-                          <motion.div
-                            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-green-400 font-poppins"
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ duration: 0.5, delay: 0.5 }}
-                          >
-                            ${totalIncome.toLocaleString()}
-                          </motion.div>
-                          <p className="text-xs sm:text-sm text-green-300 mt-1 sm:mt-2 font-inter">
-                            {transactions.filter((t) => t.type === "income").length} transactions
-                          </p>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-
-                    {/* Expenses Card */}
-                    <motion.div whileHover={{ scale: 1.02, rotateY: 2 }} transition={{ duration: 0.3 }}>
-                      <Card className="bg-gradient-to-br from-red-900/20 to-black/80 border-red-800/50 shadow-xl shadow-red-500/20 h-full">
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-4 sm:p-6">
-                          <CardTitle className="text-sm sm:text-base font-medium text-red-200 font-inter">
-                            Total Expenses
-                          </CardTitle>
-                          <motion.div
-                            animate={{ y: [0, 3, 0] }}
-                            transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-                          >
-                            <TrendingDown className="h-4 w-4 sm:h-5 sm:w-5 text-red-400" />
-                          </motion.div>
-                        </CardHeader>
-                        <CardContent className="p-4 sm:p-6 pt-0">
-                          <motion.div
-                            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-red-400 font-poppins"
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ duration: 0.5, delay: 0.6 }}
-                          >
-                            ${totalExpenses.toLocaleString()}
-                          </motion.div>
-                          <p className="text-xs sm:text-sm text-red-300 mt-1 sm:mt-2 font-inter">
-                            {transactions.filter((t) => t.type === "expense").length} transactions
-                          </p>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
+                    {/* Add your overview cards/components here */}
                   </motion.div>
                 </div>
               </motion.section>
@@ -353,36 +260,8 @@ export default function FinanceTracker() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.3 }}
                   >
-                    <motion.div whileHover={{ scale: 1.01, rotateY: 1 }} transition={{ duration: 0.3 }}>
-                      <Card className="bg-gradient-to-br from-white/5 to-black/80 border-white/20 shadow-xl shadow-white/10 backdrop-blur-sm h-full">
-                        <CardHeader className="p-4 sm:p-6">
-                          <CardTitle className="text-white font-poppins text-base sm:text-lg md:text-xl">
-                            Spending Overview
-                          </CardTitle>
-                          <CardDescription className="text-gray-300 font-inter text-xs sm:text-sm">
-                            Your spending pattern over time
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent className="h-48 sm:h-64 md:h-80 lg:h-96 p-4 sm:p-6 pt-0">
-                          <SpendingChart transactions={transactions} />
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                    <motion.div whileHover={{ scale: 1.01, rotateY: 1 }} transition={{ duration: 0.3 }}>
-                      <Card className="bg-gradient-to-br from-white/5 to-black/80 border-white/20 shadow-xl shadow-white/10 backdrop-blur-sm h-full">
-                        <CardHeader className="p-4 sm:p-6">
-                          <CardTitle className="text-white font-poppins text-base sm:text-lg md:text-xl">
-                            Expense Categories
-                          </CardTitle>
-                          <CardDescription className="text-gray-300 font-inter text-xs sm:text-sm">
-                            Breakdown by category
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent className="h-48 sm:h-64 md:h-80 lg:h-96 p-4 sm:p-6 pt-0">
-                          <CategoryChart transactions={transactions} />
-                        </CardContent>
-                      </Card>
-                    </motion.div>
+                    <SpendingChart transactions={transactions} />
+                    <CategoryChart transactions={transactions} />
                   </motion.div>
                 </div>
               </motion.section>

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { TrendingUp, TrendingDown, DollarSign } from "lucide-react"
 import { Bruno_Ace_SC, Open_Sans } from "next/font/google" // Import the fonts
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 
 // Define the fonts
 const brunoAceSC = Bruno_Ace_SC({
@@ -18,135 +19,154 @@ const openSans = Open_Sans({
 
 export function HeroOverview({ balance, totalIncome, totalExpenses, transactions }) {
   return (
-    <div className="flip-container w-full max-w-[1400px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-      <div className="flip-inner">
-        <div className="text-center space-y-6 sm:space-y-8 md:space-y-10 lg:space-y-12 px-2 sm:px-4 md:px-6">
-          <motion.h1
-            className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-gray-800 tracking-tight leading-tight ${brunoAceSC.className}`} // Apply Bruno Ace SC and adjust size
-            initial={{ opacity: 0, rotateX: -90 }} // Original animation initial state
-            animate={{ opacity: 1, rotateX: 0 }} // Original animation animate state
-            transition={{ duration: 1, ease: "easeOut" }} // Original animation transition
-          >
-            <motion.span
-              className="bg-gradient-to-r from-gray-600 via-gray-300 to-gray-600 bg-clip-text text-transparent"
-              animate={{
-                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"], // Original gradient animation
-              }}
-              transition={{
-                duration: 3,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "linear",
-              }}
-              style={{
-                backgroundSize: "200% 200%",
-              }}
+    <div>
+      <div className="flip-container w-full max-w-[1400px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+        <div className="flip-inner">
+          <div className="text-center space-y-6 sm:space-y-8 md:space-y-10 lg:space-y-12 px-2 sm:px-4 md:px-6">
+            <motion.h1
+              className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-gray-800 tracking-tight leading-tight ${brunoAceSC.className}`} // Apply Bruno Ace SC and adjust size
+              initial={{ opacity: 0, rotateX: -90 }} // Original animation initial state
+              animate={{ opacity: 1, rotateX: 0 }} // Original animation animate state
+              transition={{ duration: 1, ease: "easeOut" }} // Original animation transition
             >
-              OVERVIEW
-            </motion.span>
-          </motion.h1>
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto"
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
-          >
-            {/* Balance Card */}
+              <motion.span
+                className="bg-gradient-to-r from-gray-600 via-gray-300 to-gray-600 bg-clip-text text-transparent"
+                animate={{
+                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"], // Original gradient animation
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "linear",
+                }}
+                style={{
+                  backgroundSize: "200% 200%",
+                }}
+              >
+                OVERVIEW
+              </motion.span>
+            </motion.h1>
             <motion.div
-              className="bg-gradient-to-br from-gray-700/40 to-transparent border-2 border-gray-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 backdrop-blur-sm sm:col-span-2 lg:col-span-1"
-              whileHover={{ scale: 1.02, rotateY: 2 }}
-              transition={{ duration: 0.3 }}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto"
+              initial={{ opacity: 0, y: 100 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.5 }}
             >
+              {/* Balance Card */}
               <motion.div
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 6, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-                className="mb-3 sm:mb-4"
+                whileHover={{ scale: 1.02, rotateY: 2 }}
+                transition={{ duration: 0.3 }}
+                className="md:col-span-2 xl:col-span-1"
               >
-                <DollarSign className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-gray-300 mx-auto" />
+                <Card className="bg-gradient-to-br from-red-900/20 to-black/80 border-red-800/50 shadow-xl shadow-red-500/20 backdrop-blur-sm h-full">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-4 sm:p-6">
+                    <CardTitle className="text-sm sm:text-base font-medium text-red-200 font-inter">
+                      Total Balance
+                    </CardTitle>
+                    <motion.div
+                      animate={{ rotate: [0, 360] }}
+                      transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                    >
+                      <DollarSign className="h-4 w-4 sm:h-5 sm:w-5 text-red-400" />
+                    </motion.div>
+                  </CardHeader>
+                  <CardContent className="p-4 sm:p-6 pt-0">
+                    <motion.div
+                      className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold font-poppins ${balance >= 0 ? "text-green-400" : "text-red-400"}`}
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 0.5, delay: 0.4 }}
+                    >
+                      ${balance.toLocaleString()}
+                    </motion.div>
+                    <p className="text-xs sm:text-sm text-red-300 mt-1 sm:mt-2 font-inter">
+                      {balance >= 0 ? "+" : ""}
+                      {totalIncome > 0 ? ((balance / totalIncome) * 100).toFixed(1) : 0}% from income
+                    </p>
+                  </CardContent>
+                </Card>
               </motion.div>
-              <h3 className={`text-lg sm:text-xl md:text-2xl font-bold text-gray-500 ${openSans.className}`}>
-                BALANCE
-              </h3>{" "}
-              {/* Apply Open Sans */}
-              <motion.p
-                className={`text-2xl sm:text-3xl md:text-4xl font-black ${balance >= 0 ? "text-gray-100" : "text-red-400"} ${openSans.className}`} // Apply Open Sans
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.5, delay: 1 }}
-              >
-                ${balance.toLocaleString()}
-              </motion.p>
-            </motion.div>
-            {/* Income Card */}
-            <motion.div
-              className="bg-gradient-to-br from-gray-700/30 to-transparent border-2 border-gray-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 backdrop-blur-sm"
-              whileHover={{ scale: 1.02, rotateY: 2 }}
-              transition={{ duration: 0.3 }}
-            >
-              <motion.div
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-                className="mb-3 sm:mb-4"
-              >
-                <TrendingUp className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-gray-300 mx-auto" />
-              </motion.div>
-              <h3 className={`text-lg sm:text-xl md:text-2xl font-bold text-gray-500 mb-2 ${openSans.className}`}>
-                INCOME
-              </h3>{" "}
-              {/* Apply Open Sans */}
-              <motion.p
-                className={`text-2xl sm:text-3xl md:text-4xl font-black text-gray-100 ${openSans.className}`} // Apply Open Sans
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.5, delay: 1.2 }}
-              >
-                ${totalIncome.toLocaleString()}
-              </motion.p>
-            </motion.div>
-            {/* Expenses Card */}
-            <motion.div
-              className="bg-gradient-to-br from-gray-700/30 to-transparent border-2 border-gray-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 backdrop-blur-sm"
-              whileHover={{ scale: 1.02, rotateY: 2 }}
-              transition={{ duration: 0.3 }}
-            >
-              <motion.div
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-                className="mb-3 sm:mb-4"
-              >
-                <TrendingDown className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-gray-300 mx-auto" />
-              </motion.div>
-              <h3 className={`text-lg sm:text-xl md:text-2xl font-bold text-gray-500 mb-2 ${openSans.className}`}>
-                EXPENSES
-              </h3>{" "}
-              {/* Apply Open Sans */}
-              <motion.p
-                className={`text-2xl sm:text-3xl md:text-4xl font-black text-gray-100 ${openSans.className}`} // Apply Open Sans
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.5, delay: 1.4 }}
-              >
-                ${totalExpenses.toLocaleString()}
-              </motion.p>
-            </motion.div>
+
+                     {/* Income Card */}
+          <motion.div whileHover={{ scale: 1.02, rotateY: 2 }} transition={{ duration: 0.3 }}>
+            <Card className="bg-gradient-to-br from-green-900/20 to-black/80 border-green-800/50 shadow-xl shadow-green-500/20 h-full">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-4 sm:p-6">
+                <CardTitle className="text-sm sm:text-base font-medium text-green-200 font-inter">
+                  Total Income
+                </CardTitle>
+                <motion.div
+                  animate={{ y: [0, -3, 0] }}
+                  transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+                >
+                  <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-green-400" />
+                </motion.div>
+              </CardHeader>
+              <CardContent className="p-4 sm:p-6 pt-0">
+                <motion.div
+                  className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-green-400 font-poppins"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                >
+                  ${totalIncome.toLocaleString()}
+                </motion.div>
+                <p className="text-xs sm:text-sm text-green-300 mt-1 sm:mt-2 font-inter">
+                  {transactions.filter((t) => t.type === "income").length} transactions
+                </p>
+              </CardContent>
+            </Card>
           </motion.div>
-          <motion.p
-            className={`text-base sm:text-lg md:text-xl text-gray-500 max-w-3xl mx-auto px-2 ${openSans.className}`} // Apply Open Sans
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.6 }}
-          >
-            Complete financial overview with{" "}
-            <span className={`font-bold text-white ${openSans.className}`}>
-              {transactions.filter((t) => t.type === "income").length} income
-            </span>{" "}
-            and{" "}
-            <span className={`font-bold text-white ${openSans.className}`}>
-              {transactions.filter((t) => t.type === "expense").length} expense
-            </span>{" "}
+
+          {/* Expenses Card */}
+          <motion.div whileHover={{ scale: 1.02, rotateY: 2 }} transition={{ duration: 0.3 }}>
+            <Card className="bg-gradient-to-br from-red-900/20 to-black/80 border-red-800/50 shadow-xl shadow-red-500/20 h-full">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-4 sm:p-6">
+                <CardTitle className="text-sm sm:text-base font-medium text-red-200 font-inter">
+                  Total Expenses
+                </CardTitle>
+                <motion.div
+                  animate={{ y: [0, 3, 0] }}
+                  transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+                >
+                  <TrendingDown className="h-4 w-4 sm:h-5 sm:w-5 text-red-400" />
+                </motion.div>
+              </CardHeader>
+              <CardContent className="p-4 sm:p-6 pt-0">
+                <motion.div
+                  className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-red-400 font-poppins"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                >
+                  ${totalExpenses.toLocaleString()}
+                </motion.div>
+                <p className="text-xs sm:text-sm text-red-300 mt-1 sm:mt-2 font-inter">
+                  {transactions.filter((t) => t.type === "expense").length} transactions
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </motion.div>
+        <motion.p
+          className={`text-base sm:text-lg md:text-xl text-gray-500 max-w-3xl mx-auto px-2 ${openSans.className}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1.6 }}
+        >
+          Complete financial overview with{" "}
+          <span className={`font-bold text-white ${openSans.className}`}>
+            {transactions.filter((t) => t.type === "income").length} income
+          </span>{" "}
+          and{" "}
+          <span className={`font-bold text-white ${openSans.className}`}>
+            {transactions.filter((t) => t.type === "expense").length} expense
+          </span>{" "}
             transactions
           </motion.p>
-        </div>
-      </div>
-    </div>
-  )
-}
+            </div>
+          </div>
+            </div>
+          </div>
+        // </div>
+      )
+    }
